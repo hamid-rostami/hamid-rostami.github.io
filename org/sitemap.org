@@ -1,4 +1,5 @@
 #+TITLE: Sitemap for project blog
 
+- [[file:bt-tether.org][Bluetooth Tethering Management]]
 - [[file:index.org][Hamid's blog]]
 - [[file:post1.org][My First Blog Post!]]

@@ -1,0 +1,38 @@
+#+TITLE: Bluetooth Tethering Management
+
+* Background
+I usually use bluetooth tethering to share my phone's data connection
+with my laptop. I use ~bluetoothctl~ to connect to my phone and ~nmcli~
+to enable the connection. For a long time, I kept running these two
+commands to enable the connection which got annoying after a while. But
+because I was lazy I didn't do anything with it until I decided to
+automate this!
+
+* Automate it
+I spend most of my time in Emacs, so it made sense to create two simple
+functions to connect/disconnect bluetooth tethering. They simply run
+a shell command.
+
+
+#+BEGIN_SRC emacs-lisp
+  ;; find it with:
+  ;; bluetoothctl devices
+  (setq phone-mac "XX:XX:XX:XX:XX:XX")
+  ;; find it with:
+  ;; nmcli connection show
+  (setq bt-conn "your-connection-name")
+
+  (defun bt-tether-connect ()
+    (interactive)
+    (message "Connecting...")
+    (shell-command (format "bluetoothctl connect %s && nmcli connection up '%s'" phone-mac bt-conn)))
+
+  (defun bt-tether-disconnect ()
+    (interactive)
+    (message "Disconnecting...")
+    (shell-command (format "nmcli connection down '%s' && bluetoothctl disconnect %s" bt-conn phone-mac)))
+#+END_SRC
+
+You can add these functions to your ~.emacs~ file so they will be available
+when you run Emacs. Since they are [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Using-Interactive.html][Interactive]] functions, you can type ~M-x bt-tether-connect~
+to run it.

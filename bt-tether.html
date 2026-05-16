@@ -6,8 +6,7 @@
 <!-- 2026-05-16 Sat 22:40 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Hamid's blog</title>
-<meta name="author" content="Hamid" />
+<title>Bluetooth Tethering Management</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
   #content { max-width: 60em; margin: auto; }
@@ -200,40 +199,64 @@
  |
  <a accesskey="H" href="./index.html"> HOME </a>
 </div><div id="content" class="content">
-<h1 class="title">Hamid's blog</h1>
+<h1 class="title">Bluetooth Tethering Management</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org9fefad8">Welcome</a></li>
-<li><a href="#org1a03f4b">Highlighted posts</a></li>
-<li><a href="#org7aa49ef">Links</a></li>
+<li><a href="#org6c3fac6">Background</a></li>
+<li><a href="#orgb79993f">Automate it</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org9fefad8" class="outline-2">
-<h2 id="org9fefad8">Welcome</h2>
-<div class="outline-text-2" id="text-org9fefad8">
+<div id="outline-container-org6c3fac6" class="outline-2">
+<h2 id="org6c3fac6">Background</h2>
+<div class="outline-text-2" id="text-org6c3fac6">
 <p>
-This is my homepage!
-See <a href="./sitemap.html">Sitemap</a> for all the contents.
+I usually use bluetooth tethering to share my phone's data connection
+with my laptop. I use <code>bluetoothctl</code> to connect to my phone and <code>nmcli</code>
+to enable the connection. For a long time, I kept running these two
+commands to enable the connection which got annoying after a while. But
+because I was lazy I didn't do anything with it until I decided to
+automate this!
 </p>
 </div>
 </div>
-<div id="outline-container-org1a03f4b" class="outline-2">
-<h2 id="org1a03f4b">Highlighted posts</h2>
-<div class="outline-text-2" id="text-org1a03f4b">
-<ul class="org-ul">
-<li><a href="bt-tether.html">Bluetooth Tethering</a></li>
-</ul>
+<div id="outline-container-orgb79993f" class="outline-2">
+<h2 id="orgb79993f">Automate it</h2>
+<div class="outline-text-2" id="text-orgb79993f">
+<p>
+I spend most of my time in Emacs, so it made sense to create two simple
+functions to connect/disconnect bluetooth tethering. They simply run
+a shell command.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #ff7f24;">;; </span><span style="color: #ff7f24;">find with:
+</span><span style="color: #ff7f24;">;; </span><span style="color: #ff7f24;">bluetoothctl devices
+</span>(<span style="color: #00ffff;">setq</span> phone-mac <span style="color: #ffa07a;">"XX:XX:XX:XX:XX:XX"</span>)
+<span style="color: #ff7f24;">;; </span><span style="color: #ff7f24;">find with:
+</span><span style="color: #ff7f24;">;; </span><span style="color: #ff7f24;">nmcli connection show
+</span>(<span style="color: #00ffff;">setq</span> bt-conn <span style="color: #ffa07a;">"your-connection-name"</span>)
+
+(<span style="color: #00ffff;">defun</span> <span style="color: #87cefa;">bt-tether-connect</span> ()
+  (<span style="color: #00ffff;">interactive</span>)
+  (message <span style="color: #ffa07a;">"Connecting..."</span>)
+  (shell-command (format <span style="color: #ffa07a;">"bluetoothctl connect %s &amp;&amp; nmcli connection up '</span><span style="color: #7fffd4;">%s</span><span style="color: #ffa07a;">'"</span> phone-mac bt-conn)))
+
+(<span style="color: #00ffff;">defun</span> <span style="color: #87cefa;">bt-tether-disconnect</span> ()
+  (<span style="color: #00ffff;">interactive</span>)
+  (message <span style="color: #ffa07a;">"Disconnecting..."</span>)
+  (shell-command (format <span style="color: #ffa07a;">"nmcli connection down '</span><span style="color: #7fffd4;">%s</span><span style="color: #ffa07a;">' &amp;&amp; bluetoothctl disconnect %s"</span> bt-conn phone-mac)))
+</pre>
 </div>
-</div>
-<div id="outline-container-org7aa49ef" class="outline-2">
-<h2 id="org7aa49ef">Links</h2>
-<div class="outline-text-2" id="text-org7aa49ef">
-<ul class="org-ul">
-<li><a href="https://www.linkedin.com/in/hamid-rostami/">My LinkedIn Profile</a></li>
-</ul>
+
+<p>
+You can add these functions to your <code>.emacs</code> file so they will be available
+when you run Emacs. Since they are <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Using-Interactive.html">Interactive</a> functions, you can type <code>M-x bt-tether-connect</code>
+to run it.
+</p>
 </div>
 </div>
 </div>

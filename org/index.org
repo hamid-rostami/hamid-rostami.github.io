@@ -6,7 +6,7 @@ This is my homepage!
 See [[./sitemap.html][Sitemap]] for all the contents.
 
 * Highlighted posts
-- [[file:post1.org][My first post]]
+- [[file:bt-tether.org][Bluetooth Tethering]]
 
 * Links
 - [[https://www.linkedin.com/in/hamid-rostami/][My LinkedIn Profile]]
