@@ -1,0 +1,4 @@
+#+TITLE: Sitemap for project blog
+
+- [[file:index.org][Hamid's blog]]
+- [[file:post1.org][My First Blog Post!]]
