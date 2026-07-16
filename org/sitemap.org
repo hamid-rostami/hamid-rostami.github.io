@@ -2,4 +2,5 @@
 
 - [[file:bt-tether.org][Bluetooth Tethering Management]]
 - [[file:index.org][Hamid's blog]]
+- [[file:hex-to-ascii.org][Hex to ASCII in Emacs]]
 - [[file:post1.org][My First Blog Post!]]

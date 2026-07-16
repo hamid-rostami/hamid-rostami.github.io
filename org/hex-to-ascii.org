@@ -1,0 +1,50 @@
+#+TITLE: Hex to ASCII in Emacs
+
+* Why
+I used to use some websites to convert hex to ascii, but then I thought
+it would be handy to have it in my Emacs. So I wrote this small interactive function.
+
+* How
+You can select a text region containing hex digits. with fixed-width 2 characters.
+It doesn't matter if they have any kind of whitespace between them, this function will
+trim whitespaces.
+It then starts converting them to numbers and dump them into a new buffer called
+~*hex-view*~. After that is switches the buffer to ~hexl-mode~ for that buffer, so you
+will have all nice features of hexl-mode, including ASCII characters if found.
+
+** Code
+
+Here is the code. If you're browsing with ~eww~, you can simply point to the end od this
+function and hit ~C-x C-e~ to evaluate it. Then function will be available in your Emacs.
+To use it, select a region where you have your hex digits. For example this:
+
+#+BEGIN_SRC
+45 6D 61 63     73 20 69 73
+20 63 6F 6F     6C 21
+#+END_SRC
+
+/I added some extra spaces and new-line to demontrate that it still works!/
+
+Then call the function by hitton ~M-x~ and typing in ~hex-to-ascii~ in minibuffer.
+
+#+BEGIN_SRC emacs-lisp
+  (defun hex-to-ascii ()
+    (interactive)
+    (let ((hex-str
+	   (replace-regexp-in-string
+	    "[ \t\n\r]+" ""
+	    (string-trim (buffer-substring (mark) (point))))))
+      ;; Kill the buffer if already open
+      (when (get-buffer "*hex-view*")
+        (kill-buffer "*hex-view*"))
+      (with-current-buffer (get-buffer-create "*hex-view*")
+	(setq buffer-read-only nil)
+	(erase-buffer)
+	(buffer-disable-undo)
+	(set-buffer-multibyte nil)  ; make it a unibyte buffer
+	(dotimes (i (/ (length hex-str) 2))
+	  (insert (string-to-number (substring hex-str (* i 2) (+ (* i 2) 2)) 16)))
+	(hexl-mode)
+	(setq buffer-read-only t)
+	(switch-to-buffer (current-buffer)))))
+#+END_SRC
