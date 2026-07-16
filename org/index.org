@@ -7,6 +7,7 @@ See [[./sitemap.html][Sitemap]] for all the contents.
 
 * Highlighted posts
 - [[file:bt-tether.org][Bluetooth Tethering]]
+- [[file:hex-to-ascii.org][Hex to ASCII]]
 
 * Links
 - [[https://www.linkedin.com/in/hamid-rostami/][My LinkedIn Profile]]
