@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2026-07-16 Thu 20:36 -->
+<!-- 2026-07-16 Thu 21:32 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Hex to ASCII in Emacs</title>
@@ -208,6 +208,7 @@
 <li><a href="#orge96f260">How</a>
 <ul>
 <li><a href="#orga22d232">Code</a></li>
+<li><a href="#orgb57cf3c">Result</a></li>
 </ul>
 </li>
 </ul>
@@ -230,8 +231,8 @@ You can select a text region containing hex digits. with fixed-width 2 character
 It doesn't matter if they have any kind of whitespace between them, this function will
 trim whitespaces.
 It then starts converting them to numbers and dump them into a new buffer called
-<code>*hex-view*</code>. After that is switches the buffer to <code>hexl-mode</code> for that buffer, so you
-will have all nice features of hexl-mode, including ASCII characters if found.
+<code>*hex-view*</code>. After that it enables <code>hexl-mode</code> for that buffer, so you
+will have all nice features of hexl-mode, including printing of ASCII characters.
 </p>
 </div>
 <div id="outline-container-orga22d232" class="outline-3">
@@ -254,7 +255,7 @@ To use it, select a region where you have your hex digits. For example this:
 </p>
 
 <p>
-Then call the function by hitton <code>M-x</code> and typing in <code>hex-to-ascii</code> in minibuffer.
+Then call the function by hitting <code>M-x</code> and typing <code>hex-to-ascii</code> into your minibuffer.
 </p>
 
 <div class="org-src-container">
@@ -279,6 +280,14 @@ Then call the function by hitton <code>M-x</code> and typing in <code>hex-to-asc
   (switch-to-buffer (current-buffer)))))
 </pre>
 </div>
+</div>
+</div>
+<div id="outline-container-orgb57cf3c" class="outline-3">
+<h3 id="orgb57cf3c">Result</h3>
+<div class="outline-text-3" id="text-orgb57cf3c">
+<pre class="example">
+00000000: 456d 6163 7320 6973 2063 6f6f 6c21       Emacs is cool!
+</pre>
 </div>
 </div>
 </div>

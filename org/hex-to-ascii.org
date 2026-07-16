@@ -9,8 +9,8 @@ You can select a text region containing hex digits. with fixed-width 2 character
 It doesn't matter if they have any kind of whitespace between them, this function will
 trim whitespaces.
 It then starts converting them to numbers and dump them into a new buffer called
-~*hex-view*~. After that is switches the buffer to ~hexl-mode~ for that buffer, so you
-will have all nice features of hexl-mode, including ASCII characters if found.
+~*hex-view*~. After that it enables ~hexl-mode~ for that buffer, so you
+will have all nice features of hexl-mode, including printing of ASCII characters.
 
 ** Code
 
@@ -25,7 +25,7 @@ To use it, select a region where you have your hex digits. For example this:
 
 /I added some extra spaces and new-line to demontrate that it still works!/
 
-Then call the function by hitton ~M-x~ and typing in ~hex-to-ascii~ in minibuffer.
+Then call the function by hitting ~M-x~ and typing ~hex-to-ascii~ into your minibuffer.
 
 #+BEGIN_SRC emacs-lisp
   (defun hex-to-ascii ()
@@ -47,4 +47,20 @@ Then call the function by hitton ~M-x~ and typing in ~hex-to-ascii~ in minibuffe
 	(hexl-mode)
 	(setq buffer-read-only t)
 	(switch-to-buffer (current-buffer)))))
+#+END_SRC
+
+** Result
+
+#+BEGIN_SRC emacs-lisp :results output :exports results
+  (progn
+    (with-current-buffer (current-buffer)
+      (goto-char (point-min))
+      (search-forward "45 6D 61 63")
+      (let* ((p1 (match-beginning 0))
+             (p2 (+ p1 51)))
+        (push-mark p1)
+        (goto-char p2)
+        (hex-to-ascii)))
+    (with-current-buffer "*hex-view*"
+      (princ (buffer-string))))
 #+END_SRC
